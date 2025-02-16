@@ -1,0 +1,16 @@
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+
+#мой файл (можно добавлять свои файлы, чтобы не отправлять их в GIT) и Кеш, Логи, временные файлы и т.д.
+text.txt

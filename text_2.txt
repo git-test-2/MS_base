@@ -1,0 +1,109 @@
+MindSpace
+
+БД - mind_space
+
+1. GitBush запуск от администратора
+Попадаем в папку с проектом через Git Bash - особенность в написании слеша:
+Проблема в том, что в Git Bash путь к файлу в формате Windows использовать прямые слэши (/) вместо обратных (\).
+
+git --version         (посмотреть версию)
+
+2. Попадаем в проект
+$ cd C:/OSPanel/domains/MindSpace
+
+3.модель юзер мы создавали во втором уроке
+
+
+                                            Providers\AuthServiceProvider.php
+
+Тут мы можем расширять или настраивать авторизацию, например: нали нам нужно было бы добавить новые драйверы, в config\auth.php
+ 'defaults' => [
+        'guard' => 'web',           // по умолчанию тип "web", если не будем указывать тип гарда при запросе авторизации
+        'passwords' => 'users',
+    ],
+
+то мы бы это днлали через файл AuthServiceProvider, кроме этого в AuthServiceProvider можно настраивать права доступа,
+создавать гейты, полиси ($policies). Мы можем создавать политику правил, привязать её к модели и разделить админ панель
+на юзеров аторизованных на роли и выдавать им какие-либо права (например, один юзер может работать с методами в модели
+создания новой записи, другой не может - может только удалять или обновлять, получать). То есть методы по умолчанию
+мы можем ограничивать. Создаём такую ролевую модель. Что часто используется в админ панелях.
+
+
+                                                    mailtrap
+https://mailtrap.io/inboxes/980328/settings    (выбрал Лара 7-8)
+
+# Looking to send emails in production? Check out our Email API/SMTP product!
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=66d732c8011f15
+MAIL_PASSWORD=63af93feb0d6de
+MAIL_ENCRYPTION=tls
+
+MAIL_FROM_ADDRESS=no-reply@mindspace.test
+MAIL_FROM_NAME="MindSpace"
+
+
+                                            Возможные ошибки - Письмо не приходит?
+Убедись, что данные MAIL_USERNAME и MAIL_PASSWORD верны.
+Проверь, что порт 2525 открыт (Mailtrap также поддерживает 587 и 465).
+Ошибка SSL?
+Попробуй заменить MAIL_ENCRYPTION=tls на MAIL_ENCRYPTION=null.
+
+
+
+https://youtu.be/X8R2tpMJhh4?list=PLTucyHptHtTkUbXaikXEmCWL8GradRx9I&t=190          - с привязкой, оживляем комментарии.
+
+                                                        Завтра спросить у чата
+
+Спасибо тебе огромное за помощь и разъяснения. Мне очень важно что ты часто объясняешь каждую строчку кода. Потому что я  только учусь и мне нужно понимать всё что я пишу.
+
+Объясни пожалуйста ещё такой момент в коде, когда я меняю пароль вот тут
+ //найдём юзера, где его эмеил равен эмейлу с нашей формы
+        $user = User::where(["email" => $data['email']])->first();
+
+        $password = uniqid();
+
+        $user->password = bcrypt($password); // устанавливаем юзеру новый пароль
+        $user->save(); // сохраняем новый пароль
+
+Я сразу каким-то образом присвоиваю юзеру новый пароль вот такой строкой
+ $user->password = bcrypt($password); // устанавливаем юзеру новый пароль
+и потом сохраняю его. Как это работает? Почему такая форма записи и как она работает  $user->password
+
+
+
+                                        04.02.2025
+
+                                        - Создадим отдельный файл с правилами маршрутизации для админПанели
+                                        - Отдельный гард для авторизации для админПанели
+
+                - добавляем маршрутизацию для админПанели (https://youtu.be/3Nh0RESxAr4?list=PLTucyHptHtTkUbXaikXEmCWL8GradRx9I&t=148)
+
+1. Cоздали отдельный файл для маршрутизации - routes\admin.php
+2. Подключаем маршруты для админки в app\Http\Kernel.php
+3. Скопировали protected $middlewareGroups = ['web' => [   и переименовали в   'admin' => [
+4. Идём в app\Providers\RouteServiceProvider.php и добавляем созданный нами файл с правилами маршрутизации для админПанели
+
+
+https://youtu.be/TK_O6Bjt1cY?list=PLTucyHptHtTkUbXaikXEmCWL8GradRx9I&t=1401 - создаёт админа
+
+Для того чтобы настроить авторизацию, открываем config\auth.php и создаём ещё одни "guard" для админПанели
+
+
+
+=======================
+1. Cоздаём роуты для админПанели - routes\admin.php
+2. Создаём миддлваре admin - app\Http\Kernel.php
+3. Добавляем его в правила маршрутизации - app\Providers\RouteServiceProvider.php  ( с ->prefix() )
+
+4. Создаём гуард в config\auth.php
+5.  'guards' => [ 'admin' => [
+6. И там же в config\auth.php указываем с каким прокайдером (какая модель иопользуется) -  'admin_users' => [ и 'model' => App\Models\AdminUser::class,
+=======================
+
+
+
+https://youtu.be/3Nh0RESxAr4?t=466 - закончил пока тут, потом продолжу
+
+https://youtu.be/3Nh0RESxAr4?t=1160 - тут закончил пока
