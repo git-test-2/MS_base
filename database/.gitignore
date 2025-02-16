@@ -1,2 +1,9 @@
+/vendor
+/node_modules
+/storage/*.log
+/.env
+/.env.example
+/bootstrap/cache
+
 *.sqlite
 *.sqlite-journal
